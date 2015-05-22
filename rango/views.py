@@ -2,15 +2,13 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 def index(request):
-    return HttpResponse('''
-            Rango says its hello world
-            <a href='/rango/abou'>about</a>
-            ''')
+    context = {'boldmessage' : 'I am bold font from this context'}
+    return render(request, 'rango/index.html', context);
 
 
 def about(request):
-    return HttpResponse('''
-            Rango says its about page
-            <a href='/rango/'>Home</a>
-            ''')
+    context = {'boldmessage' : ' I am in about page bold font', 
+               'message' : 'About page'}
+    return render(request, 'rango/about.html', context)
+
 
