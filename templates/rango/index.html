@@ -7,7 +7,14 @@
     <script src="{% static "js/jquery.js" %}"> </script>
     </head>
     <body>
+        {% if user.is_authenticated %}
+        <h1> Rango says Hello {{ user.username }} </h1>
+        <h2> <a href="/rango/logout/">logout</a></h2>
+        {% else %}
         <h1> Rango says Hello World </h1>
+        <h2> <a href="/rango/register">RegisterHere</a></h2>
+        <h2> <a href="/rango/login">login</a></h2>
+        {% endif %}
 
         <h2> Top 5 categories </h2>
         {% if categories  %}
@@ -29,7 +36,7 @@
             </ul>
         {% else %}
             <strong> There are not pages present </strong>
-        {% endif %}
+        {% endif %} 
         <a href="/rango/add_category/">Add a category</a></br>
         <a href="/rango/about/">About</a><br />
     </body>
