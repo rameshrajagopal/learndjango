@@ -14,26 +14,32 @@ def index(request):
     context = {}
     context['categories'] =  categories
     context['pages'] = pages
-    visits = int(request.COOKIES.get('visits', '1')
+    visits = request.session.get('visits')
+    if not visits:
+        visits = 1
     reset_last_visit_time = False
-    if 'last_visit' in request.COOKIES:
-        last_visit = request.COOKIES['last_visit']
+    last_visit = request.session.get('last_visit')
+    if last_visit:
         last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
         if (datetime.now() - last_visit_time).seconds > 10:
             visits = visits + 1
             reset_last_visit_time = True
     else:
         reset_last_visit_time = True
+    if reset_last_visit_time:
+        request.session['last_visit'] = str(datetime.now())
+        request.session['visits'] = visits
     context['visits'] = visits
     response = render(request, 'rango/index.html', context)
-    if reset_last_visit_time:
-        response.set_cookie('last_visit', datetime.now())
-        response.set_cookie('visits', visits)
     return response
 
 def about(request):
     context = {'boldmessage' : ' I am in about page bold font', 
                'message' : 'About page'}
+    visits = request.session.get('visits')
+    if not visits:
+        visits = 1
+    context['visits'] = visits;
     return render(request, 'rango/about.html', context)
 
 def category_view(request, category_name_slug):
