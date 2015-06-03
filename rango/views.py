@@ -5,6 +5,7 @@ from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm, \
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 
 
 def index(request):
@@ -13,7 +14,22 @@ def index(request):
     context = {}
     context['categories'] =  categories
     context['pages'] = pages
-    return render(request, 'rango/index.html', context);
+    visits = int(request.COOKIES.get('visits', '1')
+    reset_last_visit_time = False
+    if 'last_visit' in request.COOKIES:
+        last_visit = request.COOKIES['last_visit']
+        last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
+        if (datetime.now() - last_visit_time).seconds > 10:
+            visits = visits + 1
+            reset_last_visit_time = True
+    else:
+        reset_last_visit_time = True
+    context['visits'] = visits
+    response = render(request, 'rango/index.html', context)
+    if reset_last_visit_time:
+        response.set_cookie('last_visit', datetime.now())
+        response.set_cookie('visits', visits)
+    return response
 
 def about(request):
     context = {'boldmessage' : ' I am in about page bold font', 
@@ -70,6 +86,9 @@ def add_page(request, category_name_slug):
     return render(request, 'rango/add_page.html', context_dict)
 
 def register_view(request):
+    if request.session.test_cookie_worked():
+        print(">>>>>TEST COOKIE WORKED >>>>>")
+        request.session.delete_test_cookie()
     registered = False
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
