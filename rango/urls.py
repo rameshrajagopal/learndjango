@@ -12,5 +12,7 @@ urlpatterns = patterns('',
         url(r'^login/$', views.login_view, name='login'),
         url(r'^logout/$', views.logout_view, name='logout'),
         url(r'^restricted/', views.restricted, name='restricted'),
+        url(r'^password_change/', views.password_change_view,
+            name='password_change'),
         )
 

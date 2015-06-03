@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from rango.models import Category, Page
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm, \
-     LoginForm
+     LoginForm, \
+     PasswordChangeForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -92,9 +93,6 @@ def add_page(request, category_name_slug):
     return render(request, 'rango/add_page.html', context_dict)
 
 def register_view(request):
-    if request.session.test_cookie_worked():
-        print(">>>>>TEST COOKIE WORKED >>>>>")
-        request.session.delete_test_cookie()
     registered = False
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
@@ -143,3 +141,20 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/rango/')
 
+def password_change_view(request):
+    if request.method == 'POST':
+        password = request.POST.get('password')
+        c_password = request.POST.get('c_password')
+        if password != c_password:
+            print(" Password didn't match ")
+            return render(request, 'rango/passwordchange.html', {})
+        if request.user.is_authenticated():
+            request.user.set_password(password)
+            request.user.save()
+            return index(request)
+        else:
+            return HttpResponseRedirect('/rango/login/')
+    else:
+        password_form = PasswordChangeForm()
+    return render(request, 'rango/passwordchange.html', {})
+        
