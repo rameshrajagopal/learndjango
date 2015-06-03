@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Rango Register</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %} Login {% endblock %}
+{% block content %}
     <h1> Welcome to Login Page </h1>
     <form id="login_form" method="post" action="/rango/login/">
         {% csrf_token %}
@@ -13,6 +11,4 @@ Password: <input type="password" name="password" value="" size="50" />
         <br />
         <input type="submit" name="submit" value="login"/>
     </form>
-    <p> <a href="/rango/">Home</a></p>
-</body>
-</html>
+{% endblock %}
