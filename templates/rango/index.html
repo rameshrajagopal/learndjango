@@ -2,30 +2,47 @@
 {% load staticfiles %}
 {% block title %} Home {% endblock title %}
 {% block content %}
-        {% if user.is_authenticated %}
+  {% if user.is_authenticated %}
+    <div class="page-header">
         <h1> Rango says Hello {{ user.username }} </h1>
         {% else %}
         <h1> Rango says Hello World </h1>
         {% endif %}
-        <h2> Top 5 categories </h2>
+    </div>
+    <div><p></strong>.</p></div>
+    <div class="row placeholders">
+       <div class="col-xs-12 col-sm-6 placeholder">
+       <div class="panel panel-primary">
+       <div class="panel-heading">
+        <h3 class="panel-title"> Top 5 Categories </h3>
+       </div>
+       </div>
         {% if categories  %}
-            <ul>
+            <ul class="list-group">
             {% for category in categories  %}
-            <li> <a href="{% url 'category_detail' category.slug %}">{{ category.name }}</a></li>
+            <li class="list-group-item"> <a href="{% url 'category_detail' category.slug %}">{{ category.name }}</a></li>
             {% endfor %}
             </ul>
         {% else %}
             <strong> There are no categories present </strong>
         {% endif %}
-        <h2> Top 5 pages </h2>
+        </div>
+        <div class="col-xs-12 col-sm-6 placeholder">
+        <div class="panel panel-primary">
+        <div class="panel-heading">
+        <h3 class="panel-title"> Top 5 Pages </h3>
+        </div>
+        </div>
         {% if pages %}
-            <ul>
+            <ul class="list-group">
             {% for page in pages %}
-                <li> <a href="{{ page.url }}">{{ page.title }} </a> </li>
+                <li class="list-group-item"> <a href="{{ page.url }}">{{ page.title }} </a> </li>
             {% endfor %}
             </ul>
         {% else %}
             <strong> There are not pages present </strong>
         {% endif %} 
+        </div>
+       </div>
         <p> Num of visits {{visits}}  </p>
 {% endblock %}
