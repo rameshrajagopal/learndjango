@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block title %} Home {% endblock title %}
-{% block content %}
+{% block body_block %}
   {% if user.is_authenticated %}
     <div class="page-header">
         <h1> Rango says Hello {{ user.username }} </h1>

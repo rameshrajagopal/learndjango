@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+{% load bootstrap_toolkit %}
 {% block title %}Registration {% endblock %}
-{% block content %}
+{% block body_block %}
 <div class="page-header">
-<h1> Register </h1>
+<h1> Register with Rango</h1>
 </div>
 <div><p></strong>.</p> </div>
 <form method="post" action=".">
+<h2 class="form-signin-heading"> Signup here </h2>
 {% csrf_token %}
-{{ form.as_p }}
+{{ form | as_bootstrap }}
 <input type="submit" value="Register">
 </form>
 {% endblock %}

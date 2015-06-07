@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block title %} Register {% endblock %}
-{% block content %}
+{% block body_block %}
     {% if not registered %}
     <h1> Welcome to Rango registration </h1>
     <form id="register_form" method="post" action="{% url 'register' %}" enctype="multipart/form-data">

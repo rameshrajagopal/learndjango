@@ -11,8 +11,9 @@ urlpatterns = patterns('',
         url(r'^register/$', views.register_view, name='register'),
         url(r'^login/$', views.login_view, name='login'),
         url(r'^logout/$', views.logout_view, name='logout'),
-        url(r'^restricted/', views.restricted, name='restricted'),
-        url(r'^password_change/', views.password_change_view,
+        url(r'^restricted/i$', views.restricted, name='restricted'),
+        url(r'^password_change/$', views.password_change_view,
             name='password_change'),
+        url(r'^goto/(?P<page_id>\d+)/$', views.track_url, name='goto'),
         )
 

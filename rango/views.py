@@ -45,15 +45,25 @@ def about(request):
 
 def category_view(request, category_name_slug):
     context_dict = {}
+    context_dict['result_list'] = None
+    context_dict['query'] = None
+    if request.method == 'POST':
+        query = request.POST['query'].strip()
+        print ("Querying the search engine")
+        context_dict['result_list'] = "Search results Dummy"
+        context_dict['query'] = query
+
     try:
         category = Category.objects.get(slug=category_name_slug)
         context_dict['category_name'] = category.name
-        pages = Page.objects.filter(category=category)
+        pages = Page.objects.filter(category=category).order_by('-views')
         context_dict['pages'] = pages
         context_dict['category'] = category
         context_dict['category_name_slug'] = category_name_slug
     except Category.DoesNotExist:
         pass
+    if not context_dict['query']:
+        context_dict['query'] = category.name
     return render(request, 'rango/category.html', context_dict)
 
 @login_required
@@ -158,3 +168,11 @@ def password_change_view(request):
         password_form = PasswordChangeForm()
     return render(request, 'rango/passwordchange.html', {})
         
+def track_url(request, page_id):
+    if request.method == 'GET': 
+        page = Page.objects.get(id=page_id)
+        if page:
+            page.views += 1
+            page.save()
+            return HttpResponseRedirect(page.url)
+    return HttpResponse("Page id doesn't exist")
