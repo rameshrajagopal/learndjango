@@ -6,7 +6,8 @@
         {% else %}
         <li>
         {% endif %}
-         <a href="{% url 'category_detail' c.slug %}">{{ c.name }}</a><li>
+         <a href="{% url 'category_detail' c.slug %}">{{ c.name }}</a>
+       </li>
     {% endfor %}
 {% else %}
     <li> <strong> There are no categories present </strong></li>
