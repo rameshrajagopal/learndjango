@@ -15,5 +15,6 @@ urlpatterns = patterns('',
         url(r'^password_change/$', views.password_change_view,
             name='password_change'),
         url(r'^goto/(?P<page_id>\d+)/$', views.track_url, name='goto'),
+        url(r'^like_category/$', views.like_category, name='likecategory'),
         )
 
